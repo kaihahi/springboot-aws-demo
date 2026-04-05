@@ -1,2 +1,5 @@
 # springboot-aws-demo
 SpringBootアプリをAWSにデプロイ
+
+SpringBootで簡単なメモアプリを作成するところまで完了。ここからAWSで基盤を構築してデプロイする。
+メモアプリのソースやAWSの構成図等をコミット予定。
