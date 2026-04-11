@@ -3,7 +3,7 @@ SpringBootアプリをAWSにデプロイ
 
 概要
 Spring Boot を用いたシンプルなメモ管理 API を、AWS（EC2 / RDS / VPC）上にデプロイした構成です。全て無料枠内で構築できる内容となっています。
-Spring Bootアプリのソースはspringboot-aws-demo配下に置いてあります。
+Spring Bootアプリのソースはspringboot-aws配下に置いてあります。
 AWSの構成図や、構築時の注意点、詰まったポイントを今後追記していきます。
 
 また、この構成をTerraform による IaC 化も行う予定なので、同じ構成を自動で再現できるTerraformコードもコミットします。
