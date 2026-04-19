@@ -25,11 +25,11 @@ Spring Bootアプリのjarファイルは自動構築時にS3 バケットに格
 ## 🔧 技術スタック
 
 - AWS
-	EC2 (Amazon Linux 2023)
-	RDS (MySQL)
-	S3
-	VPC / Subnet / IGW / Route Table
-	IAM（EC2 → S3 アクセス用）
+  - EC2 (Amazon Linux 2023)
+  - RDS (MySQL)
+  - S3
+  - VPC / Subnet / IGW / Route Table
+  - IAM（EC2 → S3 アクセス用）
 - Terraform
 - Spring Boot
 
