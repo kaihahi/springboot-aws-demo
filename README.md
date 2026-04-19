@@ -8,9 +8,6 @@ Spring Bootアプリのjarファイルは自動構築時にS3 バケットに格
 
 ## 🚀 概要
 
-このアプリは、クライアントから送られたテキストを DynamoDB に保存するだけの  
-ミニマルな API です。
-
 - EC2（Amazon Linux 2023）で Spring Boot を常時稼働
 - RDS は Private Subnet に配置し、EC2 からのみアクセス可能
 - S3 に JAR を配置し、EC2 起動時に自動ダウンロード
