@@ -1,16 +1,85 @@
-# springboot-aws-demo
-SpringBootアプリをAWSにデプロイ（一旦、文字の羅列ですが今後整えます）
+# Spring Boot APP on AWS with Terraform
 
-概要
-Spring Boot を用いたシンプルなメモ管理 API を、AWS（EC2 / RDS / VPC）上にデプロイした構成です。全て無料枠内で構築できる内容となっています。
-Spring Bootアプリのソースはaws-sample配下に置いてあります。
-AWSの構成図や、構築時の注意点、詰まったポイントを今後追記していきます。
+EC2、VPC、RDS、S3で構築したシンプルなメモアプリケーションとなります。
+Terraform を使うことで、AWS リソースをコードとして管理し、同じ構成をいつでも再現できるようにしています。
+Spring Bootアプリのjarファイルは自動構築時にS3 バケットに格納され、EC2の起動時にS3 バケットから取得・実行まで自動で行われるようにしているため、terrafor applyが完了した時点でアプリが動く状態になります。
 
-また、この構成をTerraform による IaC 化も行う予定なので、同じ構成を自動で再現できるTerraformコードもコミットします。
+---
 
-以下、本アプリケーションの全体説明です。（今後詳しく、見やすく整えます）
+## 🚀 概要
 
-アーキテクチャ
+このアプリは、クライアントから送られたテキストを DynamoDB に保存するだけの  
+ミニマルな API です。
+
+- EC2（Amazon Linux 2023）で Spring Boot を常時稼働
+- RDS は Private Subnet に配置し、EC2 からのみアクセス可能
+- S3 に JAR を配置し、EC2 起動時に自動ダウンロード
+- VPC は 2AZ 構成（Public / Private Subnet）※使用しているAZは1つのみ
+- Terraform による完全 IaC 化
+
+---
+
+## 🏗 構成図
+
+![architecture](./architecture.png)
+
+---
+
+## 🔧 技術スタック
+
+- AWS
+	EC2 (Amazon Linux 2023)
+	RDS (MySQL)
+	S3
+	VPC / Subnet / IGW / Route Table
+	IAM（EC2 → S3 アクセス用）
+- Terraform
+- Spring Boot
+
+---
+
+## 📁 ディレクトリ構成
+
+.
+├── aws-sample/                          Spring Bootアプリのソースコードを格納しています。（配下の階層については割愛します）
+├── terraform/
+│      ├── main.tf
+│      ├── variables.tf
+│      ├── outputs.tf
+│      ├── terraform.tfvars             DBのパスワードなどはこのファイルから渡しています。（値は置き換えてコミット）
+│      ├── build/
+│      │  └── libs/
+│      │       └── app.jar             こちらにjarファイルを配置します。（githubへのコミットはなし）
+│      └── modules/
+│          ├── vpc/
+│          │   ├── main.tf
+│          │   ├── variables.tf
+│          │   └── outputs.tf
+│          ├── ec2/
+│          │   ├── main.tf
+│          │   ├── variables.tf
+│          │   ├── outputs.tf
+│          │   └── user-data.sh
+│          ├── rds/
+│          │   ├── main.tf
+│          │   ├── variables.tf
+│          │   └── outputs.tf
+│          ├── security/
+│          │  ├── main.tf
+│          │  ├── variables.tf
+│          │  └── outputs.tf
+│          └── S3/
+│              ├── main.tf
+│              ├── variables.tf
+│              └── outputs.tf
+├── .gitignore
+├── architecture.png                    構成図
+└── README.md
+
+
+---
+
+## 📡 詳細（記載途中。アプリの仕様の詳細や動作確認の方法まで記載予定です。）
 
 VPC  
 アプリケーション専用のネットワークを作成し、その中に EC2 と RDS を配置しています。
@@ -47,7 +116,7 @@ POST /api/memos：メモの登録（JSON）
 データは RDS に保存され、ブラウザから GET で確認できます。
 
 本番環境の設定
-本番用の設定は application-prod.properties に分離し、
+本番用の設定は application-prod.properties に分離（Terraformによって自動作成）し、
 以下の情報を外部ファイルとして管理しています。
 （ローカル用のapplication-local.propertiesは、ローカルのDocker環境で動作確認する際に使用しました。）
 
