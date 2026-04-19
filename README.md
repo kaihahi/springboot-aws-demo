@@ -36,7 +36,7 @@ Spring Bootアプリのjarファイルは自動構築時にS3 バケットに格
 ---
 
 ## 📁 ディレクトリ構成
-
+```
 .
 ├── aws-sample/                          Spring Bootアプリのソースコードを格納しています。（配下の階層については割愛します）
 ├── terraform/
@@ -72,7 +72,7 @@ Spring Bootアプリのjarファイルは自動構築時にS3 バケットに格
 ├── .gitignore
 ├── architecture.png                    構成図
 └── README.md
-
+```
 
 ---
 
